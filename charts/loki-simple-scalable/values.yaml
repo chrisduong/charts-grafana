@@ -109,7 +109,7 @@ loki:
             period: 24h
     {{- end }}
 
-    # TODO: override with storage_config to make Loki can assume role to work with S3 chunks BUT breaks the Ruler
+    # NOTE: you can force to make common storage to use s3://eu-west-1/example as well
     # Issue related: https://github.com/grafana/loki/issues/5437#issuecomment-1070602957
     # storageConfig:
     #       aws:
