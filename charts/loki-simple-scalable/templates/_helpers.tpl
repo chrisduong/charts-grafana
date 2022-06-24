@@ -124,11 +124,11 @@ s3:
 {{- with .Values.loki.storage.s3 }}
 s3:
   s3: {{ .s3 }}
-  endpoint: {{ .endpoint }}
-  region: {{ .region }}
+  # endpoint: {{ .endpoint }}
+  # region: {{ .region }}
   # bucketnames: {{ $.Values.loki.storage.bucketNames.chunks }}
-  secret_access_key: {{ .secretAccessKey }}
-  access_key_id: {{ .accessKeyId }}
+  # secret_access_key: {{ .secretAccessKey }}
+  # access_key_id: {{ .accessKeyId }}
   s3forcepathstyle: {{ .s3ForcePathStyle }}
   insecure: {{ .insecure }}
 {{- end -}}

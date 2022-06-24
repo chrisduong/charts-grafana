@@ -128,11 +128,8 @@ loki:
       storage:
         type: s3
         s3:
-          s3: s3://{{ .Values.loki.ruler.storage.s3.region }}/{{ .Values.loki.ruler.storage.s3.bucket }}
-          region: {{ .Values.loki.ruler.storage.s3.region }}
+          s3: {{ .Values.loki.ruler.storage.s3 }}
           s3forcepathstyle: true
-          bucketnames: {{ .Values.loki.ruler.storage.s3.bucket }}
-          endpoint: {{ .Values.loki.storage.s3.endpoint }}
     {{- end -}}
   # Should authentication be enabled
   authEnabled: true
