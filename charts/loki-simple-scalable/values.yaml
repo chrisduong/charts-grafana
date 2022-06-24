@@ -109,13 +109,31 @@ loki:
             period: 24h
     {{- end }}
 
+    # TODO: override with storage_config to make Loki can assume role to work with S3 chunks BUT breaks the Ruler
+    # Issue related: https://github.com/grafana/loki/issues/5437#issuecomment-1070602957
+    # storageConfig:
+    #       aws:
+    #         s3: s3://eu-west-1/example
+    #       boltdb_shipper:
+    #         shared_store: s3
+    # Ruler cannot assume the Role
+    # Error: caller=ruler.go:493 msg="unable to list rules" err="WebIdentityErr: failed to retrieve credentials\ncaused by: SerializationError
+    {{- with .Values.loki.storageConfig }}
+    storage_config:
+    {{ toYaml . | nindent 4  }}
+    {{- end }}
+
     {{- if or .Values.minio.enabled (eq .Values.loki.storage.type "s3") (eq .Values.loki.storage.type "gcs") }}
     ruler:
       storage:
+        type: s3
         s3:
-          bucketnames: {{ .Values.loki.storage.bucketNames.ruler }}
+          s3: s3://{{ .Values.loki.ruler.storage.s3.region }}/{{ .Values.loki.ruler.storage.s3.bucket }}
+          region: {{ .Values.loki.ruler.storage.s3.region }}
+          s3forcepathstyle: true
+          bucketnames: {{ .Values.loki.ruler.storage.s3.bucket }}
+          endpoint: {{ .Values.loki.storage.s3.endpoint }}
     {{- end -}}
-
   # Should authentication be enabled
   authEnabled: true
 
